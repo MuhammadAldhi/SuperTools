@@ -1,36 +1,8 @@
 import { Link } from 'react-router-dom'
 
+import Magnet from "../components/Magnet"
 
-import SpotlightChard from "../component/SpotlightCard"
-import Magnet from "../component/Magnet"
-
-const features = [
-    { id: 1, title: "AI Assistant", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 2, title: "Video Downloader", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 3, title: "Fast Converter", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 4, title: "Secure Storage", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 5, title: "Smart Editor", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 6, title: "SEO Tools", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 7, title: "Social Tracker", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 8, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 9, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 10, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 11, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 12, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 13, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 14, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 15, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 16, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 17, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 18, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 19, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 20, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 21, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 22, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 23, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-
-];
-
+import { ListData } from '../assets/image/DataImg';
 
 export default function About() {
     return (
@@ -63,58 +35,7 @@ export default function About() {
                 </div>
             </div>
 
-            <div className="flex justify-center w-full">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-10 max-w-7xl">
-                    {features.map((item) => (
-                        <SpotlightChard
-                            key={item.id}
-                            className="h-[420px] w-full max-w-[250px] mx-auto text-white flex flex-col overflow-hidden"
-                        >
-                            {/* Gambar berbeda setiap kartu */}
-                            <div className="w-full h-40 overflow-hidden rounded-t-xl mb-4 relative group">
-                                <img
-                                    src={item.img}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                />
-                                {/* Overlay Tipis agar gambar menyatu */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-60"></div>
-                            </div>
 
-                            {/* Konten Teks */}
-                            <div className="p-4 flex-grow">
-                                <h4 className="font-bold text-[#ff29ed] mb-2 text-lg">{item.title}</h4>
-                                <p className="text-xs text-gray-400 leading-relaxed line-clamp-3">
-                                    {item.deskripsi}
-                                </p>
-                            </div>
-
-                            {/* Tombol Explore yang Menarik */}
-                            <div className="p-4 pt-0">
-                                <Link
-                                    to={item.url}
-                                    className="group relative flex items-center justify-center w-full py-2.5 text-xs font-bold uppercase tracking-widest text-white border border-[#ff29ed]/40 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#ff29ed] hover:shadow-[0_0_15px_rgba(255,41,237,0.3)]"
-                                >
-                                    {/* Background Slide Effect */}
-                                    <div className="absolute inset-0 w-0 bg-[#ff29ed] transition-all duration-300 ease-out group-hover:w-full"></div>
-
-                                    {/* Teks & Icon */}
-                                    <span className="relative z-10 flex items-center gap-2 group-hover:text-black">
-                                        Explore Now
-                                        <svg
-                                            xmlns="http://www.w3.org"
-                                            className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                        </svg>
-                                    </span>
-                                </Link>
-                            </div>
-                        </SpotlightChard>
-                    ))}
-                </div>
-            </div>
 
             {/* Container untuk menaruh tombol di tengah */}
             <div className="flex justify-center mt-16 relative z-20">

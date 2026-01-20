@@ -1,18 +1,19 @@
-import DotGrid from '../component/DotGrid'
+import DotGrid from '../components/DotGrid'
 import About from './About'
-import Footer from '../component/Footer'
+import Footer from '../components/Footer'
+import Shuffle from '../components/Shuffle';
 
 export default function HomePages() {
   return (
-    <>
-      <div className='relative w-full h-screen bg-[#0a0a0a] overflow-hidden scroll-smooth'>
+    <div className="bg-[#0a0a0a] selection:bg-[#ff29ed]/30">
+      <div className='relative w-full h-screen overflow-hidden scroll-smooth'>
 
-        {/* 1. DotGrid sebagai Background */}
+        {/* 1. Background Layer dengan Vignette */}
         <div className="absolute inset-0 z-0">
           <DotGrid
             dotSize={3}
             gap={15}
-            baseColor="#271E37"
+            baseColor="#1a1425"
             activeColor="#ff29ed"
             proximity={120}
             shockRadius={250}
@@ -20,50 +21,75 @@ export default function HomePages() {
             resistance={750}
             returnDuration={1.5}
           />
+          {/* Overlay Gradient untuk menyatukan background dengan konten berikutnya */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]" />
         </div>
 
-        {/* 2. Overlay Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] pointer-events-none" />
+        {/* 2. Main Hero Content */}
+        <div className='relative flex flex-col z-10 items-center justify-center w-full h-full text-white text-center px-6'>
 
-        {/* 3. Konten Utama */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full pointer-events-none">
-          <div className="absolute w-64 h-64 bg-[#ff29ed] opacity-20 blur-[120px] rounded-full animate-pulse" />
+          {/* Tag Kecil di Atas */}
+          <div className="mb-8 flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-lg animate-fade-in">
+             <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff29ed] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff29ed]"></span>
+             </span>
+             <p className="text-[10px] tracking-[0.3em] uppercase font-medium text-white/70">Next Gen Toolkit 2026</p>
+          </div>
 
-          <div className="text-center px-4">
-            <h2 className="text-white text-7xl md:text-8xl font-bold font-gluten tracking-tighter drop-shadow-[0_0_15px_rgba(255,41,237,0.5)]">
-              <span className="bg-clip-text text-transparent bg-linear-to-b from-white via-white to-[#ff29ed]">
-                SuperTools.
-              </span>
-            </h2>
-            <p className="text-gray-400 mt-4 text-sm md:text-base tracking-[0.3em] uppercase font-light">
-              Whatever Is Here
+          <div className="flex flex-col items-center">
+            {/* Judul Utama dengan Flex Layout agar rapi di Mobile/Desktop */}
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-6">
+              
+              <Shuffle
+                text='Super'
+                shuffleDirection="up"
+                duration={1.35}
+                animationMode="evenodd"
+                shuffleTimes={2}
+                ease="back.out(1.1)"
+                stagger={0.09}
+                className='font-gluten text-7xl lg:text-9xl font-bold text-[#ff29ed] drop-shadow-sm'
+              />
+
+              <Shuffle
+                text='Tools'
+                shuffleDirection="up"
+                duration={1.35}
+                animationMode="evenodd"
+                shuffleTimes={2}
+                ease="back.out(1.1)"
+                stagger={0.09}
+                className='font-gluten text-7xl lg:text-9xl font-bold text-white outline-text'
+              />
+            </div>
+
+            {/* Subtitle dengan Animated Tracking */}
+            <p className='mt-8 max-w-lg text-sm lg:text-lg font-light tracking-[0.5em] uppercase text-white/40 border-t border-white/5 pt-6'>
+              Elevating your <span className="text-white/80">Digital Workflow</span>
             </p>
           </div>
-          <div className="mt-8 w-24 h-0.5 bg-linear-to-r from-transparent via-[#ff29ed] to-transparent opacity-50" />
         </div>
 
-        {/* 4. Button SVG dengan link ke #about */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+        {/* 3. Scroll Indicator yang Lebih Elegan */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20">
           <a
             href="#about"
-            className="group flex flex-col items-center gap-2 transition-all duration-300 hover:scale-110"
+            className="group flex flex-col items-center gap-4 transition-all duration-500"
           >
-            <span className="text-[#ff29ed] text-[10px] tracking-[0.4em] uppercase font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              scroll
-            </span>
-
-            <div className="p-4 rounded-full border border-white/10 bg-white/5 backdrop-blur-md hover:border-[#ff29ed]/50 hover:shadow-[0_0_20px_rgba(255,41,237,0.3)] transition-all duration-300 animate-bounce">
-              <svg
+            <div className="relative w-10 h-10 rounded-full border border-white/10 flex items-center justify-center overflow-hidden group-hover:border-[#ff29ed]/50 transition-all duration-500">
+               <div className="absolute inset-0 bg-[#ff29ed] opacity-0 group-hover:opacity-10 transition-opacity" />
+               <svg
                 xmlns="http://www.w3.org"
-                width="28"
-                height="28"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-white group-hover:text-[#ff29ed] transition-colors"
+                className="text-white/50 group-hover:text-[#ff29ed] animate-bounce mt-1 transition-colors"
               >
                 <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
               </svg>
@@ -71,8 +97,12 @@ export default function HomePages() {
           </a>
         </div>
       </div>
-      <About />
-      <Footer />
-    </>
+
+      {/* Konten Berikutnya */}
+      <div id="about" className="relative z-10">
+        <About />
+        <Footer />
+      </div>    
+    </div>
   )
 }

@@ -1,17 +1,15 @@
 import { Link } from 'react-router-dom'
 
-import Magnet from '../component/Magnet'
-import SpotlightChard from '../component/SpotlightCard'
+import Magnet from '../components/Magnet'
 
-const features = [
-    { id: 1, title: "AI Assistant", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 2, title: "Video Downloader", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 3, title: "Fast Converter", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 4, title: "Secure Storage", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 5, title: "Smart Editor", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 6, title: "SEO Tools", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 7, title: "Social Tracker", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
-    { id: 8, title: "Data Analytics", img: "https://picsum.photos/200/300?random=1", url: '/a', deskripsi: 'isi deskrpisi' },
+import Stack from '../components/Stack'
+import { ListData } from '../assets/image/DataImg';
+
+const images = [
+    "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=500&auto=format",
+    "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=500&auto=format",
+    "https://images.unsplash.com/photo-1452626212852-811d58933cae?q=80&w=500&auto=format",
+    "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=500&auto=format"
 ];
 
 
@@ -20,7 +18,7 @@ export default function About() {
         // Menggunakan bg-gradient-to-b dari warna landing page ke warna yang sedikit lebih terang
         <section
             id="about"
-            className="relative min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0d0d0d] to-[#121212] py-24 px-6 overflow-hidden"
+            className="relative min-h-screen bg-linear-to-b from-[#0a0a0a] via-[#0d0d0d] to-[#121212] py-24 px-6 overflow-hidden"
         >
             {/* 1. Dekorasi Cahaya Statis (Agar terlihat menyambung dengan DotGrid) */}
             <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[#ff29ed] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
@@ -46,58 +44,54 @@ export default function About() {
                 </div>
             </div>
 
-            <div className="flex justify-center w-full">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-10 max-w-7xl">
-                    {features.map((item) => (
-                        <SpotlightChard
-                            key={item.id}
-                            className="h-[420px] w-full max-w-[250px] mx-auto text-white flex flex-col overflow-hidden"
-                        >
-                            {/* Gambar berbeda setiap kartu */}
-                            <div className="w-full h-40 overflow-hidden rounded-t-xl mb-4 relative group">
-                                <img
-                                    src={item.img}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+
+            <div className='w-full min-h-[400px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 items-center justify-items-center relative z-10 px-4'>
+                {/* Gunakan ListData.slice agar mapping sesuai dengan isi data Anda */}
+                {ListData.slice(0, 5).map((item, index) => (
+                    <div key={index} className="flex flex-col items-center gap-4">
+
+                        {/* Pembungkus Stack (Background Ungu Transparan) */}
+                        <div className="relative p-3 bg-[#ff29ed]/10 border border-[#ff29ed]/20 rounded-3xl shadow-xl">
+                            <div className="w-[160px] h-[160px] sm:w-[180px] sm:h-[180px] md:w-[208px] md:h-[208px]">
+                                <Stack
+                                    randomRotation={false}
+                                    sensitivity={200}
+                                    sendToBackOnClick={true}
+                                    cards={ListData.slice(0, 9).map((card, i) => (
+                                        <div key={i} className="w-full h-full rounded-xl overflow-hidden shadow-2xl">
+                                            <img
+                                                src={card.img}
+                                                alt={`card-${i}`}
+                                                className="w-full h-full object-cover pointer-events-none"
+                                            />
+                                        </div>
+                                    ))}
+                                    autoplay={true}
+                                    autoplayDelay={1500 + (index * 200)}
+                                    pauseOnHover={true}
                                 />
-                                {/* Overlay Tipis agar gambar menyatu */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-60"></div>
                             </div>
+                        </div>
 
-                            {/* Konten Teks */}
-                            <div className="p-4 flex-grow">
-                                <h4 className="font-bold text-[#ff29ed] mb-2 text-lg">{item.title}</h4>
-                                <p className="text-xs text-gray-400 leading-relaxed line-clamp-3">
-                                    {item.deskripsi}
-                                </p>
-                            </div>
-
-                            {/* Tombol Explore yang Menarik */}
-                            <div className="p-4 pt-0">
-                                <Link
-                                    to={item.url}
-                                    className="group relative flex items-center justify-center w-full py-2.5 text-xs font-bold uppercase tracking-widest text-white border border-[#ff29ed]/40 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#ff29ed] hover:shadow-[0_0_15px_rgba(255,41,237,0.3)]"
-                                >
-                                    {/* Background Slide Effect */}
-                                    <div className="absolute inset-0 w-0 bg-[#ff29ed] transition-all duration-300 ease-out group-hover:w-full"></div>
-
-                                    {/* Teks & Icon */}
-                                    <span className="relative z-10 flex items-center gap-2 group-hover:text-black">
-                                        Explore Now
-                                        <svg
-                                            xmlns="http://www.w3.org"
-                                            className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                        </svg>
-                                    </span>
-                                </Link>
-                            </div>
-                        </SpotlightChard>
-                    ))}
-                </div>
+                        {/* Keterangan Tools Dinamis */}
+                        <div className="text-center">
+                            <span className="text-[#ff29ed] text-xs font-bold uppercase tracking-tighter bg-[#ff29ed]/10 px-3 py-1 rounded-full border border-[#ff29ed]/20">
+                                {/* Mengambil title dari ListData */}
+                                {item.title}
+                            </span>
+                            <p className="text-gray-400 text-[10px] mt-2 max-w-[150px] leading-relaxed">
+                                {/* Mengambil deskripsi dari ListData */}
+                                {item.deskripsi}
+                            </p>
+                        </div>
+                    </div>
+                ))}
             </div>
+
+
+
+
+
 
 
             {/* Container untuk menaruh tombol di tengah */}
