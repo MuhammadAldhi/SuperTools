@@ -6,7 +6,7 @@ export default function Footer() {
     return (
         <footer className="relative bg-[#0a0a0a] pt-20 pb-10 px-6 overflow-hidden border-t border-white/5">
             {/* Efek Cahaya di Footer */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#ff29ed] opacity-[0.05] blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-200 h-[300px] bg-[#ff29ed] opacity-[0.05] blur-[120px] rounded-full pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
