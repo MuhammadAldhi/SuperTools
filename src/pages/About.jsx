@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
 
-import Magnet from '../components/Magnet'
 
-import Stack from '../components/Stack'
-import { ListData } from '../assets/image/DataImg';
+import CountUp from '../components/CountUp'
+
 
 const images = [
     "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=500&auto=format",
@@ -28,7 +27,7 @@ export default function About() {
 
             <div className="max-w-6xl mx-auto relative z-10">
                 {/* Header Section */}
-                <div className="text-center mb-20">
+                <div className="text-center mb-5">
                     <div className="inline-block px-4 py-1 rounded-full border border-[#ff29ed]/20 bg-[#ff29ed]/5 mb-6">
                         <h2 className="text-[#ff29ed] text-[10px] font-bold tracking-[0.5em] uppercase">
                             Discover
@@ -44,84 +43,67 @@ export default function About() {
                 </div>
             </div>
 
+            <div className="min-h-screen w-full p-4 sm:p-8 flex justify-center items-center">
+                {/* 
+        Mobile: grid-cols-1 (satu kolom memanjang ke bawah)
+        Desktop (lg): grid-cols-7 (kembali ke layout asli Anda)
+    */}
+                <div className="grid grid-cols-1 md:grid-cols-7 md:grid-rows-5 gap-4 w-full max-w-6xl md:h-[80vh] md:w-[140vh] font-bold text-white">
 
-            <div className='w-full min-h-[400px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 items-center justify-items-center relative z-10 px-9'>
-                {/* Gunakan ListData.slice agar mapping sesuai dengan isi data Anda */}
-                {ListData.slice(0, 5).map((item, index) => (
-                    <div key={index} className="flex flex-col items-center gap-4">
-
-                        {/* Pembungkus Stack (Background Ungu Transparan) */}
-                        <div className="relative p-10 bg-[#ff29ed]/10 border border-[#ff29ed]/20 rounded-3xl shadow-xl">
-
-                            <div className="w-[160px] h-[160px] sm:w-[180px] sm:h-[180px] md:w-[208px] md:h-[208px]">
-                                <Stack
-                                    randomRotation={false}
-                                    sensitivity={200}
-                                    sendToBackOnClick={false}
-                                    cards={ListData.slice(0, 9).map((card, i) => (
-                                        <div key={i} className="w-full h-full rounded-xl overflow-hidden shadow-2xl">
-                                            <img
-                                                src={card.img}
-                                                alt={`card-${i}`}
-                                                className="w-full h-full object-cover pointer-events-none"
-                                            />
-                                        </div>
-                                    ))}
-                                    autoplay={true}
-                                    autoplayDelay={1500 + (index * 200)}
-                                    pauseOnHover={true}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Keterangan Tools Dinamis */}
-                        <div className="text-center">
-                            <span className="text-[#ff29ed] text-lg font-bold uppercase tracking-tighter bg-[#ff29ed]/10 px-3 py-1 rounded-full border border-[#ff29ed]/20">
-                                {/* Mengambil title dari ListData */}
-                                {item.title}
+                    {/* AI SECTION */}
+                    <div className="md:col-span-5 md:row-span-2 border-1 transition-all border-[#ff29ed] hover:shadow-[0_0_20px_rgba(255,41,237,0.5)] rounded-xl flex items-center p-6 md:p-10 order-1">
+                        <div className="flex flex-col">
+                            <span className="text-5xl md:text-7xl text-white font-bold font-gluten">
+                                <CountUp from={0} to={15} duration={1} className="count-up-text pr-1" />+
                             </span>
-                            <p className="text-gray-400 text-[12px] mt-2 max-w-[150px] leading-relaxed">
-                                {/* Mengambil deskripsi dari ListData */}
-                                {item.deskripsi}
-                            </p>
+                            <p className="text-white text-lg mt-2">Ai</p>
+                            <p className="text-gray-400 text-sm">Fully maintained and growing monthly</p>
                         </div>
                     </div>
-                ))}
-            </div>
 
+                    {/* DOWNLOADER SECTION */}
+                    <div className="md:col-span-2 md:row-span-3 md:row-start-3 border-1 transition-all border-[#ff29ed] hover:shadow-[0_0_20px_rgba(255,41,237,0.5)] rounded-xl flex flex-col justify-end p-6 md:p-10 order-4 md:order-2">
+                        <span className="text-5xl md:text-7xl text-white font-bold font-gluten">
+                            <CountUp from={0} to={20} duration={1} className="count-up-text pr-1" />+
+                        </span>
+                        <p className="text-white text-lg mt-2">Downloader</p>
+                        <p className="text-gray-400 text-sm">All Sosmed Downloader Video/Photo</p>
+                    </div>
 
+                    {/* SUPER TOOLS (LOGO) */}
+                    <div className="hidden md:col-span-3 md:col-start-3 md:row-start-3 border-1 transition-all border-[#ff29ed] rounded-xl md:flex items-center justify-center p-6 hover:shadow-[0_0_20px_rgba(255,41,237,0.5)] order-2 md:order-3">
+                        <span className="text-3xl md:text-4xl font-gluten text-[#ff29ed] pr-2">Super</span>
+                        <span className='text-3xl md:text-4xl font-gluten text-white'>Tools</span>
+                    </div>
 
+                    {/* FREE SECTION */}
+                    <div className="md:col-span-3 md:row-span-2 md:col-start-3 md:row-start-4 border-1 transition-all border-[#ff29ed] rounded-xl flex flex-col justify-center p-6 md:p-10 hover:shadow-[0_0_20px_rgba(255,41,237,0.2)] order-5 md:order-4">
+                        <span className="text-5xl md:text-7xl text-white font-bold font-gluten">
+                            <CountUp from={0} to={100} duration={1} className="count-up-text pr-1" />%
+                        </span>
+                        <p className="text-white text-lg mt-2">Free</p>
+                        <p className="text-gray-400 text-sm">unlimited without limitations</p>
+                    </div>
 
+                    {/* TOOLS SECTION */}
+                    <div className="md:col-span-2 md:row-span-3 md:col-start-6 md:row-start-1 border-1 transition-all border-[#ff29ed] rounded-xl flex flex-col p-6 md:p-10 justify-end hover:shadow-[0_0_20px_rgba(255,41,237,0.5)] order-3 md:order-5">
+                        <span className="text-5xl md:text-7xl text-white font-bold font-gluten">
+                            <CountUp from={0} to={17} duration={1} className="count-up-text pr-1" />+
+                        </span>
+                        <p className="text-white text-lg mt-2">Tools</p>
+                        <p className="text-gray-400 text-sm">Improve your work</p>
+                    </div>
 
+                    {/* SEARCH SECTION */}
+                    <div className="md:col-span-2 md:row-span-2 md:col-start-6 md:row-start-4 border-1 transition-all border-[#ff29ed] rounded-xl flex flex-col p-6 md:p-10 justify-center hover:shadow-[0_0_20px_rgba(255,41,237,0.5)] order-6">
+                        <span className="text-5xl md:text-7xl text-white font-bold font-gluten">
+                            <CountUp from={0} to={18} duration={1} className="count-up-text pr-1" />+
+                        </span>
+                        <p className="text-white text-lg mt-2">Search</p>
+                        <p className="text-gray-400 text-sm">Speed up searches</p>
+                    </div>
 
-
-            {/* Container untuk menaruh tombol di tengah */}
-            <div className="flex justify-center mt-16 relative z-20">
-                <Link to='/more'> {/* cursor-none jika Magnet memiliki custom cursor, jika tidak hapus saja */}
-                    <Magnet padding={50} disabled={false} magnetStrength={20}>
-                        <div className="group relative px-8 py-4 bg-white/5 border border-[#ff29ed]/30 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-[#ff29ed] hover:bg-[#ff29ed]/10">
-
-                            {/* Efek Cahaya di belakang teks saat hover */}
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl bg-[#ff29ed]/20 rounded-2xl" />
-
-                            <div className="relative flex items-center gap-3">
-                                <span className="text-white font-bold tracking-wider uppercase text-sm">
-                                    Explore More Features
-                                </span>
-
-                                {/* Icon Panah Animatif */}
-                                <svg
-                                    className="w-5 h-5 text-[#ff29ed] transform transition-transform duration-300 group-hover:translate-x-1"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </div>
-                        </div>
-                    </Magnet>
-                </Link>
+                </div>
             </div>
 
 

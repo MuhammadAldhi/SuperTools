@@ -1,7 +1,28 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
+
+const imageUrl = 'https://api.ryzumi.vip/favicon.ico'; // Placeholder: favicon lama
+const targetUrl = 'https://api.ryzumi.vip/';
+const altText = 'Ryzumi API Logo';
+const sponsorName = 'Ryzumi API';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const [email, setEmail] = useState('');
+    const [subscribedEmail, setSubscribedEmail] = useState(''); // State tambahan
+    const [showModal, setShowModal] = useState(false);
+
+    const handleSubscribe = (e) => {
+        e.preventDefault();
+
+        setSubscribedEmail(email);
+
+        // Menampilkan alert dengan alamat email yang diinput
+        setShowModal(true); // Munculkan modal
+
+        setEmail('');
+    };
 
     return (
         <footer className="relative bg-[#0a0a0a] pt-20 pb-10 px-6 overflow-hidden border-t border-white/5">
@@ -49,6 +70,7 @@ export default function Footer() {
                                     {social.icon}
                                 </a>
                             ))}
+
                         </div>
 
                     </div>
@@ -59,34 +81,61 @@ export default function Footer() {
                         <ul className="space-y-4">
                             <li><Link to="/ai" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">AI Assistant</Link></li>
                             <li><Link to="/downloader" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Downloader</Link></li>
-                            <li><Link to="/converter" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Converter</Link></li>
+                            <li><Link to="/tools" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Tools</Link></li>
+                            <li><Link to="/search" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Search</Link></li>
                         </ul>
                     </div>
 
                     {/* Kolom 3: Support */}
                     <div>
-                        <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Company</h4>
+                        <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Legal</h4>
                         <ul className="space-y-4">
-                            <li><Link to="/about" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">About Us</Link></li>
                             <li><Link to="/privacy" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Privacy Policy</Link></li>
                             <li><Link to="/terms" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Terms of Service</Link></li>
+                            <li><Link to="/disclaimer" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Disclaimer</Link></li>
                         </ul>
                     </div>
 
                     {/* Kolom 4: Newsletter */}
+
                     <div>
                         <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Join Our Newsletter</h4>
                         <p className="text-gray-400 text-sm mb-4">Dapatkan update fitur terbaru setiap minggu.</p>
-                        <form className="flex flex-col gap-2">
+                        <form className="flex flex-col gap-2" onSubmit={handleSubscribe}>
                             <input
                                 type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="email@anda.com"
                                 className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-[#ff29ed] transition-colors"
                             />
-                            <button className="bg-[#ff29ed] hover:bg-[#ff29ed]/80 text-white font-bold py-2 rounded-lg text-sm transition-all shadow-[0_0_20px_rgba(255,41,237,0.2)]">
+                            <button
+                                type="submit"
+                                className="bg-[#ff29ed] hover:bg-[#ff29ed]/80 text-white font-bold py-2 rounded-lg text-sm transition-all shadow-[0_0_20px_rgba(255,41,237,0.2)]"
+                            >
                                 Subscribe
                             </button>
                         </form>
+
+                        <div className="p-5 text-center">
+                            <p className="text-sm text-gray-600 mb-3">Orang Baik</p>
+                            <div className="flex items-center justify-center gap-3">
+                                <a
+                                    href={targetUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center text-gray-800 font-bold no-underline"
+                                >
+                                    <img
+                                        src={imageUrl}
+                                        alt={altText}
+                                        className="h-10 filter grayscale hover:grayscale-0 transition duration-300"
+                                    />
+                                    <span className='pl-2'>{sponsorName}</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -103,6 +152,29 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
+
+            {/* Pop-up Modal di Tengah Layar */}
+            {showModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                    <div className="bg-[#1a1a1a] border border-white/10 p-8 rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center">
+                        <div className="mb-4 text-[#ff29ed] flex justify-center">
+                            {/* Icon simpel (opsional) */}
+                            <svg xmlns="http://www.w3.org" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-white text-lg font-semibold mb-2">Terima Kasih!</h3>
+                        <p className="text-gray-400 text-sm mb-6">
+                            <span className="text-[#ff29ed] font-medium">{subscribedEmail}</span> berhasil join.
+                        </p>
+                        <button
+                            onClick={() => setShowModal(false)}
+                            className="w-full bg-[#ff29ed] hover:bg-[#ff29ed]/80 text-white font-bold py-2 rounded-lg text-sm transition-all"
+                        >
+                            OK
+                        </button>
+                    </div>
+                </div>)}
         </footer>
     );
 }
