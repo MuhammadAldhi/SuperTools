@@ -45,18 +45,19 @@ export default function About() {
             </div>
 
 
-            <div className='w-full min-h-[400px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 items-center justify-items-center relative z-10 px-4'>
+            <div className='w-full min-h-[400px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 items-center justify-items-center relative z-10 px-9'>
                 {/* Gunakan ListData.slice agar mapping sesuai dengan isi data Anda */}
                 {ListData.slice(0, 5).map((item, index) => (
                     <div key={index} className="flex flex-col items-center gap-4">
 
                         {/* Pembungkus Stack (Background Ungu Transparan) */}
-                        <div className="relative p-3 bg-[#ff29ed]/10 border border-[#ff29ed]/20 rounded-3xl shadow-xl">
+                        <div className="relative p-10 bg-[#ff29ed]/10 border border-[#ff29ed]/20 rounded-3xl shadow-xl">
+
                             <div className="w-[160px] h-[160px] sm:w-[180px] sm:h-[180px] md:w-[208px] md:h-[208px]">
                                 <Stack
                                     randomRotation={false}
                                     sensitivity={200}
-                                    sendToBackOnClick={true}
+                                    sendToBackOnClick={false}
                                     cards={ListData.slice(0, 9).map((card, i) => (
                                         <div key={i} className="w-full h-full rounded-xl overflow-hidden shadow-2xl">
                                             <img
@@ -75,11 +76,11 @@ export default function About() {
 
                         {/* Keterangan Tools Dinamis */}
                         <div className="text-center">
-                            <span className="text-[#ff29ed] text-xs font-bold uppercase tracking-tighter bg-[#ff29ed]/10 px-3 py-1 rounded-full border border-[#ff29ed]/20">
+                            <span className="text-[#ff29ed] text-lg font-bold uppercase tracking-tighter bg-[#ff29ed]/10 px-3 py-1 rounded-full border border-[#ff29ed]/20">
                                 {/* Mengambil title dari ListData */}
                                 {item.title}
                             </span>
-                            <p className="text-gray-400 text-[10px] mt-2 max-w-[150px] leading-relaxed">
+                            <p className="text-gray-400 text-[12px] mt-2 max-w-[150px] leading-relaxed">
                                 {/* Mengambil deskripsi dari ListData */}
                                 {item.deskripsi}
                             </p>
