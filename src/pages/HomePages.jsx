@@ -2,6 +2,7 @@ import DotGrid from '../components/DotGrid'
 import About from './About'
 import Footer from '../components/Footer'
 import Shuffle from '../components/Shuffle';
+import GetStarted from './GetStarted';
 
 export default function HomePages() {
   return (
@@ -30,17 +31,17 @@ export default function HomePages() {
 
           {/* Tag Kecil di Atas */}
           <div className="mb-8 flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-lg animate-fade-in">
-             <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff29ed] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff29ed]"></span>
-             </span>
-             <p className="text-[10px] tracking-[0.3em] uppercase font-medium text-white/70">Next Gen Toolkit 2026</p>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff29ed] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff29ed]"></span>
+            </span>
+            <p className="text-[10px] tracking-[0.3em] uppercase font-medium text-white/70">Next Gen Toolkit 2026</p>
           </div>
 
           <div className="flex flex-col items-center">
             {/* Judul Utama dengan Flex Layout agar rapi di Mobile/Desktop */}
             <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-6">
-              
+
               <Shuffle
                 text='Super'
                 shuffleDirection="up"
@@ -78,8 +79,8 @@ export default function HomePages() {
             className="group flex flex-col items-center gap-4 transition-all duration-500"
           >
             <div className="relative w-10 h-10 rounded-full border border-white/10 flex items-center justify-center overflow-hidden group-hover:border-[#ff29ed]/50 transition-all duration-500">
-               <div className="absolute inset-0 bg-[#ff29ed] opacity-0 group-hover:opacity-10 transition-opacity" />
-               <svg
+              <div className="absolute inset-0 bg-[#ff29ed] opacity-0 group-hover:opacity-10 transition-opacity" />
+              <svg
                 xmlns="http://www.w3.org"
                 width="20"
                 height="20"
@@ -101,8 +102,9 @@ export default function HomePages() {
       {/* Konten Berikutnya */}
       <div id="about" className="relative z-10">
         <About />
-        <Footer />
-      </div>    
+      </div>
+      <GetStarted />
+      <Footer />
     </div>
   )
 }

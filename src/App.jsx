@@ -1,7 +1,6 @@
 // BENAR
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import HomePages from './pages/HomePages';
-import More from './pages/More';
 import NotFound from './pages/NotFound'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService';
@@ -12,7 +11,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePages />} />
-        <Route path="/more" element={<More />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
