@@ -90,7 +90,7 @@ export default function About() {
                     {/* SEARCH SECTION */}
                     <div className="md:col-span-2 md:row-span-2 md:col-start-6 md:row-start-4 border-1 transition-all border-[#ff29ed] rounded-xl flex flex-col p-6 md:p-10 justify-center hover:shadow-[0_0_20px_rgba(255,41,237,0.5)] order-6">
                         <span className="text-5xl md:text-7xl text-white font-bold font-gluten">
-                            <CountUp from={0} to={18} duration={1} className="count-up-text pr-1" />+
+                            <CountUp from={0} to={19} duration={1} className="count-up-text pr-1" />+
                         </span>
                         <p className="text-white text-lg mt-2">Search</p>
                         <p className="text-gray-400 text-sm">Speed up searches</p>
