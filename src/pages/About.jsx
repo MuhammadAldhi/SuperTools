@@ -1,9 +1,4 @@
-
-
 import CountUp from '../components/CountUp'
-
-
-
 
 export default function About() {
     return (
