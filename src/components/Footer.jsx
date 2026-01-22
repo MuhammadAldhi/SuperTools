@@ -82,7 +82,7 @@ export default function Footer() {
                             <li><Link to="/ai" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">AI Assistant</Link></li>
                             <li><Link to="/downloader" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Downloader</Link></li>
                             <li><Link to="/tools" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Tools</Link></li>
-                            <li><Link to="/search" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Search</Link></li>
+                            <li><Link to="/search" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Search Engine</Link></li>
                         </ul>
                     </div>
 

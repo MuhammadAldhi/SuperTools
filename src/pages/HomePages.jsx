@@ -104,7 +104,6 @@ export default function HomePages() {
         <About />
       </div>
       <GetStarted />
-      <Footer />
     </div>
   )
 }
