@@ -155,17 +155,18 @@ const LiveCHat = () => {
                     <div
                         ref={scrollRef}
                         className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#050505] scrollbar-hide"
-                        style={{
-                            msOverflowStyle: 'none', // Untuk IE/Edge
-                            scrollbarWidth: 'none'   // Untuk Firefox
-                        }}
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {messages.map((msg) => (
                             <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm ${msg.sender === 'user'
+                                <div className={`max-w-[85%] px-4 py-2 rounded-2xl text-sm shadow-sm 
+                ${msg.sender === 'user'
                                         ? 'bg-[#ff29ed] text-white rounded-tr-none'
                                         : 'bg-gray-900 text-gray-300 rounded-tl-none border border-gray-800'
-                                    }`}>
+                                    } 
+                /* PERBAIKAN DI SINI */
+                break-words overflow-hidden whitespace-pre-wrap flex-wrap`}
+                                >
                                     {msg.text}
                                 </div>
                             </div>
