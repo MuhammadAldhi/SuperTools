@@ -7,6 +7,7 @@ import TermsOfService from './pages/TermsOfService';
 import Disclaimer from './pages/Disclaimer'
 import More from './pages/More'
 import Footer from './components/Footer'
+import LiveCHat from './components/LiveChat';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
+      <LiveCHat />
       <Footer />
 
     </BrowserRouter>
