@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
+import api from '../../api/api'
 
 const LiveCHat = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [inputValue, setInputValue] = useState('');
-
+    
     // --- KONFIGURASI ---
-    const API_ENDPOINT = '/api/chat'; // Mengarah ke serverless function kita
+    const API_ENDPOINT = api; // Mengarah ke serverless function kita
     const ADMIN_TELEGRAM_ID = '7875257969'; // Hanya ID ini yang bisa membalas
 
     // ID Unik User (4 Angka)
