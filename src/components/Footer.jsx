@@ -7,7 +7,7 @@ const targetUrl = 'https://api.ryzumi.vip/';
 const altText = 'Ryzumi API Logo';
 const sponsorName = 'Ryzumi API';
 
-export default function Footer() {
+export default function Footer({ activeFeature, setFeature }) {
 
     const currentYear = new Date().getFullYear();
     const [email, setEmail] = useState('');
@@ -86,14 +86,18 @@ export default function Footer() {
 
                             <li><Link
                                 to="/more"
-                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                                onClick={() => setFeature('download')}
+                                className={`transition-colors text-sm ${activeFeature === "download" ? "text-[#ff29ed]" : "text-gray-400 hover:text-[#ff29ed]"
+                                    }`}
                             >
                                 Downloader
                             </Link></li>
 
                             <li><Link
                                 to="/more"
-                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                                onClick={() => setFeature('ai')}
+                                className={`transition-colors text-sm ${activeFeature === "ai" ? "text-[#ff29ed]" : "text-gray-400 hover:text-[#ff29ed]"
+                                    }`}
                             >
                                 AI Assistant
                             </Link></li>
@@ -101,14 +105,18 @@ export default function Footer() {
 
                             <li><Link
                                 to="/more"
-                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                                onClick={() => setFeature('tools')}
+                                className={`transition-colors text-sm ${activeFeature === "tools" ? "text-[#ff29ed]" : "text-gray-400 hover:text-[#ff29ed]"
+                                    }`}
                             >
                                 Tools
                             </Link></li>
 
                             <li><Link
                                 to="/more"
-                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                                onClick={() => setFeature('search')}
+                                className={`transition-colors text-sm ${activeFeature === "search" ? "text-[#ff29ed]" : "text-gray-400 hover:text-[#ff29ed]"
+                                    }`}
                             >
                                 Search
                             </Link></li>

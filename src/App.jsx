@@ -1,5 +1,6 @@
 // BENAR
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import HomePages from './pages/HomePages';
 import NotFound from './pages/NotFound'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -10,12 +11,14 @@ import Footer from './components/Footer'
 import LiveCHat from './components/LiveChat';
 
 function App() {
+  const [activeFeature, setFeature] = useState("download");
+  
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePages />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/More" element={<More />} />
+        <Route path="/More" element={<More activeFeature={activeFeature} setFeature={setFeature} />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
@@ -23,7 +26,7 @@ function App() {
       </Routes>
 
       <LiveCHat />
-      <Footer />
+      <Footer activeFeature={activeFeature} setFeature={setFeature}/>
 
     </BrowserRouter>
   );

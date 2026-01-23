@@ -9,8 +9,8 @@ import Tools from './features/Tools';
 
 import BtnMore from '../components/BtnMore'
 
-export default function More() {
-  const [activeFeature, setFeature] = useState("download");
+export default function More({activeFeature, setFeature}) {
+  // const [activeFeature, setFeature] = useState("download");
   const [activeMore, setMore] = useState(true); // Default false agar rapi di awal
 
   return (
