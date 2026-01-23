@@ -6,14 +6,8 @@ const LiveCHat = () => {
     const [inputValue, setInputValue] = useState('');
 
     // --- KONFIGURASI ---
-    const TELEGRAM_BOT_TOKEN = '8521186249:AAGqpqUedD9JMIaZhDL1RhCZq6hyb6MbBvM';
+    const API_ENDPOINT = '/api/chat'; // Mengarah ke serverless function kita
     const ADMIN_TELEGRAM_ID = '7875257969'; // Hanya ID ini yang bisa membalas
-
-    const BASE_URL = `https://api.telegram.org/${TELEGRAM_BOT_TOKEN}`;
-
-    const SEND_URL = `${BASE_URL}/sendMessage`;
-    const GET_URL = `${BASE_URL}/getUpdates`;
-
 
     // ID Unik User (4 Angka)
     const [userId, setUserId] = useState(() => {
@@ -45,42 +39,26 @@ const LiveCHat = () => {
     useEffect(() => {
         const fetchUpdates = async () => {
             try {
-                const response = await fetch(`${GET_URL}?offset=${lastUpdateId + 1}`, {
-                    method: 'GET',
-                    // Menghindari pre-flight OPTIONS yang berat
-                    headers: { 'Accept': 'application/json' }
-                });
-
+                // Memanggil API lokal Vercel, bukan Telegram langsung
+                const response = await fetch(`${API_ENDPOINT}?offset=${lastUpdateId + 1}`);
                 const data = await response.json();
-
-                // Jika response bukan 200 OK, jangan diproses sebagai JSON
-                if (!response.ok) {
-                    console.error("Endpoint tidak ditemukan (404). Cek vercel.json Anda.");
-                    return;
-                }
 
                 if (data.ok && data.result.length > 0) {
                     data.result.forEach(update => {
                         const msg = update.message;
-
                         if (msg && msg.text) {
                             const senderId = msg.from.id.toString();
                             const incomingText = msg.text.trim();
 
-                            // 1. Validasi: Apakah pengirim adalah Admin yang terdaftar?
-                            // 2. Validasi: Apakah formatnya "IDUSER: PESAN"?
+                            // Validasi Admin & Format ID User
                             if (senderId === ADMIN_TELEGRAM_ID && incomingText.startsWith(userId + ":")) {
-
-                                // Ambil pesan setelah tanda ":"
                                 const adminMessage = incomingText.split(':').slice(1).join(':').trim();
-
                                 if (adminMessage) {
                                     const adminReply = {
                                         id: msg.message_id,
                                         text: adminMessage,
                                         sender: 'admin'
                                     };
-
                                     setMessages(prev => {
                                         if (prev.find(m => m.id === adminReply.id)) return prev;
                                         return [...prev, adminReply];
@@ -91,7 +69,6 @@ const LiveCHat = () => {
                         setLastUpdateId(update.update_id);
                     });
                 }
-
             } catch (error) {
                 console.error("Polling error:", error);
             }
@@ -99,15 +76,15 @@ const LiveCHat = () => {
 
         const interval = setInterval(() => {
             if (isOpen) fetchUpdates();
-        }, 3000); // Cek setiap 3 detik
+        }, 3000);
 
         return () => clearInterval(interval);
-    }, [isOpen, lastUpdateId, userId, ADMIN_TELEGRAM_ID, GET_URL]);
+    }, [isOpen, lastUpdateId, userId]);
 
-    // --- KIRIM KE TELEGRAM ---
+    // --- UPDATE KIRIM KE TELEGRAM ---
     const sendToTelegram = async (messageText) => {
         try {
-            await fetch(SEND_URL, {
+            await fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
