@@ -8,10 +8,13 @@ const altText = 'Ryzumi API Logo';
 const sponsorName = 'Ryzumi API';
 
 export default function Footer() {
+
     const currentYear = new Date().getFullYear();
     const [email, setEmail] = useState('');
     const [subscribedEmail, setSubscribedEmail] = useState(''); // State tambahan
     const [showModal, setShowModal] = useState(false);
+
+    const [activePage, setPage] = useState('privacy')
 
     const handleSubscribe = (e) => {
         e.preventDefault();
@@ -78,11 +81,38 @@ export default function Footer() {
                     {/* Kolom 2: Product */}
                     <div>
                         <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Product</h4>
+
                         <ul className="space-y-4">
-                            <li><Link to="/ai" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">AI Assistant</Link></li>
-                            <li><Link to="/downloader" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Downloader</Link></li>
-                            <li><Link to="/tools" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Tools</Link></li>
-                            <li><Link to="/search" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Search Engine</Link></li>
+
+                            <li><Link
+                                to="/more"
+                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                            >
+                                Downloader
+                            </Link></li>
+
+                            <li><Link
+                                to="/more"
+                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                            >
+                                AI Assistant
+                            </Link></li>
+
+
+                            <li><Link
+                                to="/more"
+                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                            >
+                                Tools
+                            </Link></li>
+
+                            <li><Link
+                                to="/more"
+                                className={`text-gray-400 hover:text-[#ff29ed] transition-colors text-sm`}
+                            >
+                                Search
+                            </Link></li>
+
                         </ul>
                     </div>
 
@@ -90,10 +120,20 @@ export default function Footer() {
                     <div>
                         <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Legal</h4>
                         <ul className="space-y-4">
-                            <li><Link to="/privacy" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Privacy Policy</Link></li>
-                            <li><Link to="/terms" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Terms of Service</Link></li>
-                            <li><Link to="/disclaimer" className="text-gray-400 hover:text-[#ff29ed] transition-colors text-sm">Disclaimer</Link></li>
+                            <li><Link to="/privacy"
+                                onClick={() => setPage('privacy')}
+                                className={`${activePage === 'privacy' ? 'text-[#ff29ed]' : 'text-gray-400'} hover:text-[#ff29ed] transition-colors text-sm`}>Privacy Policy</Link></li>
+
+                            <li><Link to="/terms"
+                                onClick={() => setPage('terms')}
+                                className={`${activePage === 'terms' ? 'text-[#ff29ed]' : 'text-gray-400'} hover:text-[#ff29ed] transition-colors text-sm`}>Terms of Service</Link></li>
+
+                            <li><Link to="/disclaimer"
+                                onClick={() => setPage('disclaimer')}
+                                className={`${activePage === 'disclaimer' ? 'text-[#ff29ed]' : 'text-gray-400'} hover:text-[#ff29ed] transition-colors text-sm`}>Disclaimer</Link></li>
+
                         </ul>
+
                     </div>
 
                     {/* Kolom 4: Newsletter */}

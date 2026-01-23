@@ -10,7 +10,7 @@ import Tools from './features/Tools';
 import BtnMore from '../components/BtnMore'
 
 export default function More() {
-  const [activeFeature, setFeature] = useState("ai");
+  const [activeFeature, setFeature] = useState("download");
   const [activeMore, setMore] = useState(true); // Default false agar rapi di awal
 
   return (
@@ -56,6 +56,7 @@ export default function More() {
         {activeFeature === "tools" && <Tools />}
         {activeFeature === "download" && <Downloader />}
       </div>
+      
 
       <div className='flex justify-center py-10 pb-20'>
         <BtnMore url={'/#start'} Nama={'Home Page'} />

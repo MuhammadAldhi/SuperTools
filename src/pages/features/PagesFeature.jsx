@@ -10,7 +10,7 @@ import Tools from './Tools'
 import BtnMore from '../../components/BtnMore'
 
 const PagesFeature = () => {
-  const [activeFeature, setFeature] = useState("ai");
+  const [activeFeature, setFeature] = useState("download");
   const [activeMore, setMore] = useState(false);
 
 
