@@ -51,29 +51,36 @@ const LiveCHat = () => {
                     headers: { 'Accept': 'application/json' }
                 });
 
-                // Cek apakah response benar-benar JSON
-                const contentType = response.headers.get("content-type");
-                if (!response.ok || !contentType || !contentType.includes("application/json")) {
-                    return; // Diam saja jika terjadi 502 atau error HTML dari Vercel
-                }
-
                 const data = await response.json();
+
+                // Jika response bukan 200 OK, jangan diproses sebagai JSON
+                if (!response.ok) {
+                    console.error("Endpoint tidak ditemukan (404). Cek vercel.json Anda.");
+                    return;
+                }
 
                 if (data.ok && data.result.length > 0) {
                     data.result.forEach(update => {
                         const msg = update.message;
+
                         if (msg && msg.text) {
                             const senderId = msg.from.id.toString();
                             const incomingText = msg.text.trim();
 
+                            // 1. Validasi: Apakah pengirim adalah Admin yang terdaftar?
+                            // 2. Validasi: Apakah formatnya "IDUSER: PESAN"?
                             if (senderId === ADMIN_TELEGRAM_ID && incomingText.startsWith(userId + ":")) {
+
+                                // Ambil pesan setelah tanda ":"
                                 const adminMessage = incomingText.split(':').slice(1).join(':').trim();
+
                                 if (adminMessage) {
                                     const adminReply = {
                                         id: msg.message_id,
                                         text: adminMessage,
                                         sender: 'admin'
                                     };
+
                                     setMessages(prev => {
                                         if (prev.find(m => m.id === adminReply.id)) return prev;
                                         return [...prev, adminReply];
@@ -84,11 +91,11 @@ const LiveCHat = () => {
                         setLastUpdateId(update.update_id);
                     });
                 }
+
             } catch (error) {
-                // Silent error agar tidak memenuhi console saat offline/502
+                console.error("Polling error:", error);
             }
         };
-
 
         const interval = setInterval(() => {
             if (isOpen) fetchUpdates();
