@@ -14,7 +14,7 @@ export default function Footer() {
     const [subscribedEmail, setSubscribedEmail] = useState(''); // State tambahan
     const [showModal, setShowModal] = useState(false);
 
-    const [activePage, setPage] = useState('privacy')
+    const [activePage, setPage] = useState('')
 
     const handleSubscribe = (e) => {
         e.preventDefault();
