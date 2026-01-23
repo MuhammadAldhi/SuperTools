@@ -1,7 +1,6 @@
 import DotGrid from '../components/DotGrid'
 import About from './About'
-import Footer from '../components/Footer'
-import Shuffle from '../components/Shuffle';
+import TrueFocus from '../components/TrueFocus'
 import GetStarted from './GetStarted';
 
 export default function HomePages() {
@@ -40,8 +39,15 @@ export default function HomePages() {
 
           <div className="flex flex-col items-center">
             {/* Judul Utama dengan Flex Layout agar rapi di Mobile/Desktop */}
-            <div className="flex items-center justify-center gap-2 lg:gap-6">
-              Super Tools
+            <div className="flex items-center justify-center gap-2 lg:gap-6 font-gluten">
+              <TrueFocus
+                sentence="Super Tools"
+                manualMode={false}
+                blurAmount={2}
+                borderColor="#ff29ed"
+                animationDuration={0.5}
+                pauseBetweenAnimations={1}
+              />
             </div>
 
             {/* Subtitle dengan Animated Tracking */}
