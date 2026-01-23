@@ -4,18 +4,11 @@ const LiveCHat = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [inputValue, setInputValue] = useState('');
-
-    // --- KONFIGURASI ---
+    
     const TELEGRAM_BOT_TOKEN = '8521186249:AAGqpqUedD9JMIaZhDL1RhCZq6hyb6MbBvM';
-    const ADMIN_TELEGRAM_ID = '7875257969'; // Hanya ID ini yang bisa membalas
+    const ADMIN_TELEGRAM_ID = '7875257969';
+    const BASE_URL = `https://api.telegram.org/${TELEGRAM_BOT_TOKEN}`;
 
-    const BASE_URL = `https://api.telegram.orgbot${TELEGRAM_BOT_TOKEN}`;
-
-    const SEND_URL = `${BASE_URL}/sendMessage`;
-    const GET_URL = `${BASE_URL}/getUpdates`;
-
-
-    // ID Unik User (4 Angka)
     const [userId, setUserId] = useState(() => {
         const savedId = sessionStorage.getItem('chat_user_id');
         if (savedId) return savedId;
@@ -41,42 +34,25 @@ const LiveCHat = () => {
         if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }, [messages, hasReplied, lastUpdateId]);
 
-    // --- FUNGSI AMBIL BALASAN (VALIDASI ADMIN + ID USER) ---
+    // FUNGSI POLLING (Ambil Balasan)
     useEffect(() => {
         const fetchUpdates = async () => {
             try {
-                const response = await fetch(`${GET_URL}?offset=${lastUpdateId + 1}`, {
-                    method: 'GET',
-                    // Menghindari pre-flight OPTIONS yang berat
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                // Cek apakah response benar-benar JSON
-                const contentType = response.headers.get("content-type");
-                if (!response.ok || !contentType || !contentType.includes("application/json")) {
-                    return; // Diam saja jika terjadi 502 atau error HTML dari Vercel
-                }
+                const response = await fetch(`${BASE_URL}/getUpdates?offset=${lastUpdateId + 1}`);
+                if (!response.ok) return;
 
                 const data = await response.json();
-
                 if (data.ok && data.result.length > 0) {
                     data.result.forEach(update => {
                         const msg = update.message;
-                        if (msg && msg.text) {
-                            const senderId = msg.from.id.toString();
+                        if (msg && msg.text && msg.from.id.toString() === ADMIN_TELEGRAM_ID) {
                             const incomingText = msg.text.trim();
-
-                            if (senderId === ADMIN_TELEGRAM_ID && incomingText.startsWith(userId + ":")) {
+                            if (incomingText.startsWith(userId + ":")) {
                                 const adminMessage = incomingText.split(':').slice(1).join(':').trim();
                                 if (adminMessage) {
-                                    const adminReply = {
-                                        id: msg.message_id,
-                                        text: adminMessage,
-                                        sender: 'admin'
-                                    };
                                     setMessages(prev => {
-                                        if (prev.find(m => m.id === adminReply.id)) return prev;
-                                        return [...prev, adminReply];
+                                        if (prev.find(m => m.id === msg.message_id)) return prev;
+                                        return [...prev, { id: msg.message_id, text: adminMessage, sender: 'admin' }];
                                     });
                                 }
                             }
@@ -85,47 +61,40 @@ const LiveCHat = () => {
                     });
                 }
             } catch (error) {
-                // Silent error agar tidak memenuhi console saat offline/502
+                console.error("Polling error:", error);
             }
         };
 
-
-        const interval = setInterval(() => {
-            if (isOpen) fetchUpdates();
-        }, 3000); // Cek setiap 3 detik
-
+        const interval = setInterval(() => { if (isOpen) fetchUpdates(); }, 3000);
         return () => clearInterval(interval);
-    }, [isOpen, lastUpdateId, userId, ADMIN_TELEGRAM_ID, GET_URL]);
+    }, [isOpen, lastUpdateId, userId, ADMIN_TELEGRAM_ID, BASE_URL]);
 
-    // --- KIRIM KE TELEGRAM ---
-    const sendToTelegram = async (messageText) => {
+    // FUNGSI KIRIM PESAN
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        if (!inputValue.trim()) return;
+
+        const currentInput = inputValue;
+        setMessages(prev => [...prev, { id: Date.now(), text: currentInput, sender: 'user' }]);
+        setInputValue('');
+
         try {
-            await fetch(SEND_URL, {
+            await fetch(`${BASE_URL}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     chat_id: ADMIN_TELEGRAM_ID,
-                    text: `🆔 *USER ID:* \`${userId}\`\n💬 *Pesan:* ${messageText}`,
+                    text: `🆔 *USER ID:* \`${userId}\`\n💬 *Pesan:* ${currentInput}`,
                     parse_mode: 'Markdown'
                 })
             });
         } catch (error) {
             console.error("Send error:", error);
         }
-    };
-
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        if (!inputValue.trim()) return;
-
-        const userMsg = { id: Date.now(), text: inputValue, sender: 'user' };
-        setMessages(prev => [...prev, userMsg]);
-        sendToTelegram(inputValue);
-        setInputValue('');
 
         if (!hasReplied) {
             setTimeout(() => {
-                setMessages(prev => [...prev, { id: Date.now() + 1, text: "Pesan terkirim ke Admin. Mohon tunggu.", sender: 'admin' }]);
+                setMessages(prev => [...prev, { id: Date.now()+1, text: "Pesan terkirim ke Admin. Mohon tunggu.", sender: 'admin' }]);
                 setHasReplied(true);
             }, 1000);
         }
@@ -167,30 +136,30 @@ const LiveCHat = () => {
                             </div>
                         </div>
                         <div className="flex gap-3 items-center">
-                            <button onClick={() => setShowConfirm(true)} className="text-gray-600 hover:text-red-500 transition-colors"><svg xmlns="http://www.w3.org" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
-                            <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-[#ff29ed]"><svg xmlns="http://www.w3.org" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg></button>
+                            <button onClick={() => setShowConfirm(true)} className="text-gray-600 hover:text-red-500"><svg xmlns="http://www.w3.org" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+                            <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-[#ff29ed]"><svg xmlns="http://www.w3.org" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
                         </div>
                     </div>
 
                     <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto bg-[#0a0a0a] flex flex-col gap-3 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                         <style>{`.no-scrollbar::-webkit-scrollbar { display: none; }`}</style>
                         {messages.map((msg) => (
-                            <div key={msg.id} className={`p-3 rounded-2xl max-w-[85%] text-sm transition-all duration-300 ${msg.sender === 'user' ? 'bg-[#ff29ed] text-white self-end rounded-tr-none shadow-[0_0_15px_rgba(255,41,237,0.2)]' : 'bg-[#1a1a1a] border border-gray-800 text-gray-400 self-start rounded-tl-none'}`}>
+                            <div key={msg.id} className={`p-3 rounded-2xl max-w-[85%] text-sm ${msg.sender === 'user' ? 'bg-[#ff29ed] text-white self-end rounded-tr-none shadow-[0_0_10px_rgba(255,41,237,0.2)]' : 'bg-[#1a1a1a] border border-gray-800 text-gray-400 self-start rounded-tl-none'}`}>
                                 {msg.text}
                             </div>
                         ))}
                     </div>
 
                     <form onSubmit={handleSendMessage} className="p-3 border-t border-[#ff29ed]/20 bg-[#0a0a0a] flex gap-2">
-                        <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Tulis pesan..." className="flex-1 bg-[#161616] border border-gray-800 rounded-full px-4 py-2 text-sm text-gray-300 focus:border-[#ff29ed] outline-none" />
-                        <button type="submit" className="bg-[#ff29ed] p-2 rounded-full hover:shadow-[0_0_20px_#ff29ed] active:scale-90 flex items-center justify-center">
+                        <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Tulis pesan..." className="flex-1 bg-[#161616] border border-gray-800 rounded-full px-4 py-2 text-sm text-gray-300 focus:border-[#ff29ed] outline-none transition-all" />
+                        <button type="submit" className="bg-[#ff29ed] p-2 rounded-full hover:shadow-[0_0_20px_#ff29ed] transition-all active:scale-90 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org" className="h-5 w-5 text-white transform rotate-90" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
                         </button>
                     </form>
                 </div>
 
                 <div onClick={() => setIsOpen(!isOpen)} className={`pointer-events-auto shadow-[0_0_20px_rgba(255,41,237,0.4)] flex items-center justify-center bg-[#0a0a0a] border-2 border-[#ff29ed] w-14 h-14 rounded-full cursor-pointer duration-500 active:scale-90 text-[#ff29ed] ${isOpen ? 'rotate-90 !border-gray-600 !text-gray-600' : 'hover:shadow-[0_0_40px_#ff29ed]'}`}>
-                    {isOpen ? <svg xmlns="http://www.w3.org" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg> : <svg xmlns="http://www.w3.org" className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.484 3.53 1.331 5.003L2 22l5.131-1.307A9.944 9.944 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.863-.349-4.089-.963l-.294-.148L4.6 19.645l.764-2.883-.16-.279A7.943 7.943 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" /></svg>}
+                    {isOpen ? <svg xmlns="http://www.w3.org" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg> : <svg xmlns="http://www.w3.org" className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.484 3.53 1.331 5.003L2 22l5.131-1.307A9.944 9.944 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.863-.349-4.089-.963l-.294-.148L4.6 19.645l.764-2.883-.16-.279A7.943 7.943 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>}
                 </div>
             </div>
         </div>
