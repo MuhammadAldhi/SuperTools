@@ -50,7 +50,7 @@ export default function HomePages() {
                 shuffleTimes={2}
                 ease="back.out(1.1)"
                 stagger={0.09}
-                className='font-gluten text-7xl lg:text-9xl font-bold text-[#ff29ed] drop-shadow-sm'
+                className='font-gluten text-7xl lg:text-9xl z-10 font-bold text-[#ff29ed] drop-shadow-sm'
               />
 
               <Shuffle
