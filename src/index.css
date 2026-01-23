@@ -170,3 +170,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* *{
+  border: 1;
+  border-color: rgb(217, 123, 0);
+} */

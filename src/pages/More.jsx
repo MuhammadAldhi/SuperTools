@@ -52,14 +52,14 @@ export default function More() {
       <div className='p-4 md:p-10'>
         {/* PERBAIKAN: Kirim state activeMore dan fungsi setMore */}
         {activeFeature === "ai" && (<Ai activeMore={activeMore} setMore={setMore} />)}
-        {activeFeature === "search" && <Search />}
-        {activeFeature === "tools" && <Tools />}
-        {activeFeature === "download" && <Downloader />}
+        {activeFeature === "search" && <Search activeMore={activeMore} setMore={setMore} />}
+        {activeFeature === "tools" && <Tools activeMore={activeMore} setMore={setMore} />}
+        {activeFeature === "download" && <Downloader activeMore={activeMore} setMore={setMore} />}
       </div>
       
 
       <div className='flex justify-center py-10 pb-20'>
-        <BtnMore url={'/#start'} Nama={'Home Page'} />
+        <BtnMore url={'/'} Nama={'Home Page'} />
       </div>
     </div>
   );
@@ -146,4 +146,3 @@ const StyledWrapper = styled.div`
     box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
   }
 `;
-

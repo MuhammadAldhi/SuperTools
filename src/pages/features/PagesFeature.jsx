@@ -16,6 +16,7 @@ const PagesFeature = () => {
 
   return (
     <>
+
       <StyledWrapper>
         {/* Lebar adaptif: 90% di mobile, 1/2 di desktop */}
         <div className="glass-radio-group w-[30vh] md:w-[60vh] h-12 md:h-14">
@@ -49,15 +50,17 @@ const PagesFeature = () => {
       </StyledWrapper>
 
       {/* Gunakan w-full p-4 agar tidak overflow di mobile */}
-      <div className='w-screen min-h-screen p-4 md:p-10'>
+      {/* p-0 pada mobile agar konten full screen, md:p-15 pada desktop */}
+      <div className='px-4 py-15 md:p-10 w-screen'>
         {activeFeature === "ai" && <Ai activeMore={activeMore} setMore={setMore} />}
         {activeFeature === "search" && <Search activeMore={activeMore} setMore={setMore} />}
         {activeFeature === "tools" && <Tools activeMore={activeMore} setMore={setMore} />}
         {activeFeature === "download" && <Downloader activeMore={activeMore} setMore={setMore} />}
       </div>
 
+
       <div className='flex justify-center'>
-        <BtnMore url={'/more'} Nama={'More'}/>
+        <BtnMore url={'/more'} Nama={'More'} />
       </div>
     </>
   );
