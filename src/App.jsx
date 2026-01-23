@@ -9,10 +9,11 @@ import Disclaimer from './pages/Disclaimer'
 import More from './pages/More'
 import Footer from './components/Footer'
 import LiveCHat from './components/LiveChat';
+import PagesFeature from './pages/features/PagesFeature';
 
 function App() {
   const [activeFeature, setFeature] = useState("download");
-  
+
   return (
     <BrowserRouter>
       <Routes>
@@ -26,7 +27,7 @@ function App() {
       </Routes>
 
       <LiveCHat />
-      <Footer activeFeature={activeFeature} setFeature={setFeature}/>
+      <Footer activeFeature={activeFeature} setFeature={setFeature} />
 
     </BrowserRouter>
   );
