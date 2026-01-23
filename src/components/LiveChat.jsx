@@ -4,13 +4,14 @@ const LiveCHat = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [inputValue, setInputValue] = useState('');
-    
+
     // --- KONFIGURASI ---
     const TELEGRAM_BOT_TOKEN = '8521186249:AAGqpqUedD9JMIaZhDL1RhCZq6hyb6MbBvM';
     const ADMIN_TELEGRAM_ID = '7875257969'; // Hanya ID ini yang bisa membalas
-    
+
     const SEND_URL = `/api-telegram/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
     const GET_URL = `/api-telegram/bot${TELEGRAM_BOT_TOKEN}/getUpdates`;
+
 
     // ID Unik User (4 Angka)
     const [userId, setUserId] = useState(() => {
@@ -45,10 +46,16 @@ const LiveCHat = () => {
                 const response = await fetch(`${GET_URL}?offset=${lastUpdateId + 1}`);
                 const data = await response.json();
 
+                // Jika response bukan 200 OK, jangan diproses sebagai JSON
+                if (!response.ok) {
+                    console.error("Endpoint tidak ditemukan (404). Cek vercel.json Anda.");
+                    return;
+                }
+
                 if (data.ok && data.result.length > 0) {
                     data.result.forEach(update => {
                         const msg = update.message;
-                        
+
                         if (msg && msg.text) {
                             const senderId = msg.from.id.toString();
                             const incomingText = msg.text.trim();
@@ -56,7 +63,7 @@ const LiveCHat = () => {
                             // 1. Validasi: Apakah pengirim adalah Admin yang terdaftar?
                             // 2. Validasi: Apakah formatnya "IDUSER: PESAN"?
                             if (senderId === ADMIN_TELEGRAM_ID && incomingText.startsWith(userId + ":")) {
-                                
+
                                 // Ambil pesan setelah tanda ":"
                                 const adminMessage = incomingText.split(':').slice(1).join(':').trim();
 
@@ -77,6 +84,7 @@ const LiveCHat = () => {
                         setLastUpdateId(update.update_id);
                     });
                 }
+
             } catch (error) {
                 console.error("Polling error:", error);
             }
@@ -117,7 +125,7 @@ const LiveCHat = () => {
 
         if (!hasReplied) {
             setTimeout(() => {
-                setMessages(prev => [...prev, { id: Date.now()+1, text: "Pesan terkirim ke Admin. Mohon tunggu.", sender: 'admin' }]);
+                setMessages(prev => [...prev, { id: Date.now() + 1, text: "Pesan terkirim ke Admin. Mohon tunggu.", sender: 'admin' }]);
                 setHasReplied(true);
             }, 1000);
         }
@@ -182,7 +190,7 @@ const LiveCHat = () => {
                 </div>
 
                 <div onClick={() => setIsOpen(!isOpen)} className={`pointer-events-auto shadow-[0_0_20px_rgba(255,41,237,0.4)] flex items-center justify-center bg-[#0a0a0a] border-2 border-[#ff29ed] w-14 h-14 rounded-full cursor-pointer duration-500 active:scale-90 text-[#ff29ed] ${isOpen ? 'rotate-90 !border-gray-600 !text-gray-600' : 'hover:shadow-[0_0_40px_#ff29ed]'}`}>
-                    {isOpen ? <svg xmlns="http://www.w3.org" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg> : <svg xmlns="http://www.w3.org" className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.484 3.53 1.331 5.003L2 22l5.131-1.307A9.944 9.944 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.863-.349-4.089-.963l-.294-.148L4.6 19.645l.764-2.883-.16-.279A7.943 7.943 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>}
+                    {isOpen ? <svg xmlns="http://www.w3.org" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg> : <svg xmlns="http://www.w3.org" className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.484 3.53 1.331 5.003L2 22l5.131-1.307A9.944 9.944 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.863-.349-4.089-.963l-.294-.148L4.6 19.645l.764-2.883-.16-.279A7.943 7.943 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" /></svg>}
                 </div>
             </div>
         </div>
