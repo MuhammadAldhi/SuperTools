@@ -16,10 +16,10 @@ export default function Downloader({ activeMore, setMore }) {
     group relative overflow-hidden
     flex items-center justify-center p-6 text-center cursor-pointer
     min-h-[80px] w-full h-full 
-    bg-[#121212] rounded-[2rem] text-white
+    bg-slate-200/60 rounded-[2rem] text-black
     transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
     hover:border-[#ff29ed]/50 hover:-translate-y-2
-    hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]
+    hover:shadow-[0_20px_40px_rgba(255,255,255,0.4)]
   `;
 
   // Array item grid
