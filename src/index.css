@@ -6,6 +6,18 @@
 
 /* --- LANGKAH 1: Daftarkan File Font dengan @font-face --- */
 
+/* Tambahkan ini di file CSS utama Anda */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+
 @font-face {
   font-family: 'Gluten Custom';
   src: url('./assets/text/Gluten-VariableFont_slnt,wght.ttf') format('truetype');

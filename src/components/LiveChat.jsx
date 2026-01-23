@@ -4,10 +4,10 @@ const LiveCHat = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [inputValue, setInputValue] = useState('');
-    
+
     // --- KONFIGURASI ---
     // Di Vercel, file api/chat.js otomatis menjadi endpoint /api/chat
-    const API_URL = '/api/chat'; 
+    const API_URL = '/api/chat';
     const ADMIN_TELEGRAM_ID = '7875257969';
 
     const [userId, setUserId] = useState(() => {
@@ -152,15 +152,26 @@ const LiveCHat = () => {
                     </div>
 
                     {/* Chat Messages */}
-                    <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide bg-[#050505]">
+                    <div
+                        ref={scrollRef}
+                        className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#050505] scrollbar-hide"
+                        style={{
+                            msOverflowStyle: 'none', // Untuk IE/Edge
+                            scrollbarWidth: 'none'   // Untuk Firefox
+                        }}
+                    >
                         {messages.map((msg) => (
                             <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm ${msg.sender === 'user' ? 'bg-[#ff29ed] text-white rounded-tr-none' : 'bg-gray-900 text-gray-300 rounded-tl-none border border-gray-800'}`}>
+                                <div className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm ${msg.sender === 'user'
+                                        ? 'bg-[#ff29ed] text-white rounded-tr-none'
+                                        : 'bg-gray-900 text-gray-300 rounded-tl-none border border-gray-800'
+                                    }`}>
                                     {msg.text}
                                 </div>
                             </div>
                         ))}
                     </div>
+
 
                     {/* Input */}
                     <form onSubmit={handleSendMessage} className="p-4 bg-[#0a0a0a] border-t border-[#ff29ed]/20">
@@ -173,7 +184,7 @@ const LiveCHat = () => {
                                 className="w-full bg-black border border-gray-800 rounded-xl py-2 pl-4 pr-12 text-sm text-white focus:outline-none focus:border-[#ff29ed] transition-all"
                             />
                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-[#ff29ed] hover:scale-110 transition-transform">
-                                <svg xmlns="http://www.w3.org" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
+                                <svg xmlns="http://www.w3.org" className="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
                             </button>
                         </div>
                     </form>
