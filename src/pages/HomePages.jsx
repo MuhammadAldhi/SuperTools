@@ -40,29 +40,8 @@ export default function HomePages() {
 
           <div className="flex flex-col items-center">
             {/* Judul Utama dengan Flex Layout agar rapi di Mobile/Desktop */}
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-6">
-
-              <Shuffle
-                text='Super'
-                shuffleDirection="up"
-                duration={1.35}
-                animationMode="evenodd"
-                shuffleTimes={2}
-                ease="back.out(1.1)"
-                stagger={0.09}
-                className='font-gluten text-7xl lg:text-9xl z-10 font-bold text-[#ff29ed] drop-shadow-sm'
-              />
-
-              <Shuffle
-                text='Tools'
-                shuffleDirection="up"
-                duration={1.35}
-                animationMode="evenodd"
-                shuffleTimes={2}
-                ease="back.out(1.1)"
-                stagger={0.09}
-                className='font-gluten text-7xl lg:text-9xl font-bold text-white outline-text'
-              />
+            <div className="flex items-center justify-center gap-2 lg:gap-6">
+              Super Tools
             </div>
 
             {/* Subtitle dengan Animated Tracking */}
